@@ -2,6 +2,7 @@ import 'package:fav_moment/providers/places_provider.dart';
 import 'package:fav_moment/widgets/image_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:io';
 
 class CustomForm extends ConsumerWidget {
   CustomForm({super.key});
@@ -11,10 +12,13 @@ class CustomForm extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final titleController = TextEditingController();
+    File? selectedImage;
 
     void onSubmit() {
       if (formKey.currentState!.validate()) {
-        ref.read(placesProvider.notifier).addPlace(titleController.text);
+        ref
+            .read(placesProvider.notifier)
+            .addPlace(titleController.text, selectedImage!);
 
         Navigator.of(context).pop();
       }
@@ -36,20 +40,28 @@ class CustomForm extends ConsumerWidget {
                   validator: (value) {
                     if (value == null ||
                         value.isEmpty ||
+                        selectedImage == null ||
                         value.trim().length < 3) {
-                      return "Enter title correctly";
+                      return "Enter both image and title";
                     }
                     return null;
                   },
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white, fontSize: 22),
                   decoration: const InputDecoration(
-                    label: Text("Title"),
+                    label: Text(
+                      "Title",
+                      style: TextStyle(color: Colors.white, fontSize: 22),
+                    ),
                   ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                const ImageInput(),
+                ImageInput(
+                  onPickImage: (image) {
+                    selectedImage = image;
+                  },
+                ),
                 const SizedBox(
                   height: 15,
                 ),

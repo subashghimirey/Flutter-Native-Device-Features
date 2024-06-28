@@ -18,6 +18,8 @@ final theme = ThemeData().copyWith(
 );
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   //in order to use the riverpod and providers
   runApp(ProviderScope(
     child: MaterialApp(

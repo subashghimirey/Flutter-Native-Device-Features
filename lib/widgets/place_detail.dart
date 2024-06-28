@@ -8,16 +8,12 @@ class PlaceDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget content = Center(child: Image(image: FileImage(place.image)));
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(place.title),
-      ),
-      body: const Center(
-        child: Text(
-          "NO thing here yet",
-          style: TextStyle(color: Colors.white),
+        appBar: AppBar(
+          title: Text(place.title),
         ),
-      ),
-    );
+        body: content);
   }
 }
