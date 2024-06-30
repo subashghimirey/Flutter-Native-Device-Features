@@ -8,7 +8,16 @@ class PlaceDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget content = Center(child: Image(image: FileImage(place.image)));
+    Widget content = Stack(
+      children: [
+        Image(
+          image: FileImage(place.image),
+          fit: BoxFit.cover,
+          height: double.infinity,
+          width: double.infinity,
+        ),
+      ],
+    );
 
     return Scaffold(
         appBar: AppBar(

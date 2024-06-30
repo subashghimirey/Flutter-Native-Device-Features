@@ -1,5 +1,6 @@
 import 'package:fav_moment/providers/places_provider.dart';
 import 'package:fav_moment/widgets/image_input.dart';
+// import 'package:fav_moment/widgets/location_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:io';
@@ -62,6 +63,10 @@ class CustomForm extends ConsumerWidget {
                     selectedImage = image;
                   },
                 ),
+                const SizedBox(
+                  height: 20,
+                ),
+                // const LocationInput(),
                 const SizedBox(
                   height: 15,
                 ),

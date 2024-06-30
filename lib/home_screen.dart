@@ -14,6 +14,14 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  late Future<void> _placesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _placesFuture = ref.read(placesProvider.notifier).loadPlaces();
+  }
+
   void onClick() {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => CustomForm(),
@@ -25,10 +33,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final places = ref.watch(placesProvider);
 
     Widget content = Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 8),
-      child: ListView.builder(
-          itemCount: places.length,
-          itemBuilder: (context, index) => ListItem(place: places[index])),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+      child: FutureBuilder(
+        future: _placesFuture,
+        builder: (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? const Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: places.length,
+                    itemBuilder: (context, index) =>
+                        ListItem(place: places[index])),
+      ),
     );
 
     if (places.isEmpty) {

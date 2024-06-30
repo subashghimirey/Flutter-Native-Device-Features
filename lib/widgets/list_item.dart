@@ -16,12 +16,17 @@ class ListItem extends StatelessWidget {
     }
 
     return Card(
+      color: const Color.fromARGB(255, 112, 113, 109),
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
+      elevation: 5,
       child: ListTile(
         onTap: () {
           onClick(place);
         },
-        leading: const Icon(Icons.home),
+        leading: CircleAvatar(
+          radius: 25,
+          backgroundImage: FileImage(place.image),
+        ),
         title: Text(place.title),
       ),
     );
