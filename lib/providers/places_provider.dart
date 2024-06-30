@@ -9,7 +9,7 @@ import 'dart:io';
 
 Future<Database> _getDatabase() async {
   final dbPath = await sql.getDatabasesPath();
-  
+
   final db = await sql.openDatabase(path.join(dbPath, 'places.db'),
       onCreate: (db, version) {
     return db.execute(
@@ -28,7 +28,7 @@ class PlacesNotifier extends StateNotifier<List<Places>> {
     final places = data
         .map(
           (row) => Places(
-            id: row['id'] as String,
+              id: row['id'] as String,
               title: row['title'] as String,
               image: File(row['image'] as String)),
         )
@@ -38,20 +38,19 @@ class PlacesNotifier extends StateNotifier<List<Places>> {
   }
 
   void addPlace(String title, File image) async {
-
     final appDir = await syspaths.getApplicationDocumentsDirectory();
     final filename = path.basename(image.path);
     final copiedImage = await image.copy("${appDir.path}/$filename");
+    final imagePath = "${appDir.path}/$filename";
 
     final newPlace = Places(title: title, image: copiedImage);
- 
 
     final db = await _getDatabase();
 
     db.insert('user_places', {
       'id': newPlace.id,
       'title': newPlace.title,
-      'image': newPlace.image,
+      'image': newPlace.image.path,
     });
 
     state = [newPlace, ...state];
